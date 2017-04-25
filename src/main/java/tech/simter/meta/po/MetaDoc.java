@@ -23,14 +23,5 @@ public class MetaDoc implements Serializable {
   /**
    * The Name
    */
-  @Column(nullable = false)
   public String name;
-
-  public MetaDoc() {
-  }
-
-  public MetaDoc(String type, String name) {
-    this.type = type;
-    this.name = name;
-  }
 }

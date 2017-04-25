@@ -23,14 +23,5 @@ public class MetaType implements Serializable {
   /**
    * The Name
    */
-  @Column(nullable = false)
   public String name;
-
-  public MetaType() {
-  }
-
-  public MetaType(String type, String name) {
-    this.type = type;
-    this.name = name;
-  }
 }
