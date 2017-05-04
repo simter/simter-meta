@@ -1,10 +1,12 @@
 package tech.simter.meta.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import tech.simter.Context;
 import tech.simter.meta.dao.MetaDao;
 
 import static org.mockito.Mockito.*;
@@ -16,6 +18,11 @@ public class MetaServiceImplTest {
 
   @InjectMocks
   private MetaServiceImpl service;
+
+  @Before
+  public void setUp() throws Exception {
+    Context.set("user.id", "1");
+  }
 
   @Test
   public void addCreation() throws Exception {

@@ -57,7 +57,7 @@ public class MetaServiceImpl implements MetaService {
     metaHistory.docId = docId;
     metaHistory.metaType = mt;
     metaHistory.metaDoc = metaDoc;
-    metaHistory.actor = Context.get("user.id");
+    metaHistory.actor = Integer.valueOf(Context.get("user.id"));
     metaHistory.time = OffsetDateTime.now();
     metaDao.createMetaHistory(metaHistory);
   }

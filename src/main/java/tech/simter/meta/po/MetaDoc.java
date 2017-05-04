@@ -15,7 +15,7 @@ public class MetaDoc implements Serializable {
   public Integer id;
 
   /**
-   * The MetaType identity, like "creation", "modification"
+   * The MetaDoc identity, like "tech.simter.User"
    */
   @Column(nullable = false, unique = true)
   public String type;
