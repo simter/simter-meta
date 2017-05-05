@@ -19,7 +19,7 @@ comment on column meta_doc.name is 'Meta Document Name';
 create table meta_history (
   id        serial primary key,
   time      timestamptz not null,
-  actor     integer     not null,
+  actor     integer,
   meta_type integer     not null references meta_type,
   meta_doc  integer     not null references meta_doc,
   doc_id    integer     not null

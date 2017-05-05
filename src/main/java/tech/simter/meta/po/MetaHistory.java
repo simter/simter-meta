@@ -24,7 +24,7 @@ public class MetaHistory implements Serializable {
   /**
    * The Actor ID, like creator or modifier ID
    */
-  @Column(nullable = false)
+  @Column
   public Integer actor;
 
   @Column(nullable = false)
