@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 /**
  * The Document Meta History
  *
- * @author RJ 2017-04-25
+ * @author RJ
  */
 @Entity
 public class MetaHistory implements Serializable {
@@ -27,14 +27,17 @@ public class MetaHistory implements Serializable {
   @Column
   public Integer actor;
 
-  @Column(nullable = false)
+  @ManyToOne(optional = false)
+  @JoinColumn(nullable = false)
   public MetaType metaType;
-  @Column(nullable = false)
+
+  @ManyToOne(optional = false)
+  @JoinColumn(nullable = false)
   public MetaDoc metaDoc;
-  @Column(nullable = false)
 
   /**
    * The document instance ID
    */
+  @Column(nullable = false)
   public Integer docId;
 }
