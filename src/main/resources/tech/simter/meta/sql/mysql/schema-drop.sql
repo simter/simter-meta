@@ -1,3 +1,3 @@
-drop table if exists meta_history;
-drop table if exists meta_doc;
-drop table if exists meta_type;
+drop table if exists operation;
+drop table if exists operator;
+drop table if exists document;

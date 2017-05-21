@@ -4,24 +4,24 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Meta Document
+ * The document.
  *
- * @author RJ 2017-04-25
+ * @author RJ
  */
 @Entity
-public class MetaDoc implements Serializable {
+public class Document implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Integer id;
 
   /**
-   * The MetaDoc identity, like "tech.simter.User"
+   * The document identity. Prefer to use the entity class name, such as "tech.simter.demo.po.Demo".
    */
   @Column(nullable = false, unique = true)
   public String type;
 
   /**
-   * The Name
+   * The name.
    */
   public String name;
 }

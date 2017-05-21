@@ -1,25 +1,70 @@
 package tech.simter.meta.service;
 
 
+import tech.simter.meta.po.Operation;
+
 /**
- * Document Meta-Info Service
+ * The meta service.
  *
- * @author RJ 2017-04-25
+ * @author RJ
  */
 public interface MetaService {
   /**
-   * Add a document creation meta-info
+   * Add a specific document operation.
    *
-   * @param docType Document type
-   * @param docId Document ID
+   * @param documentType  The document type
+   * @param instanceId    The document instance ID
+   * @param operationType The custom operation type value
    */
-  void addCreation(Class docType, Integer docId);
+  void add(String documentType, Integer instanceId, int operationType);
 
   /**
-   * Add a document modification meta-info
+   * Add a specific entity operation.
    *
-   * @param docType Document type
-   * @param docId Document ID
+   * @param entityType    The entity type
+   * @param entityId      The entity ID
+   * @param operationType The operation type
    */
-  void addModification(Class docType, Integer docId);
+  void add(Class entityType, Integer entityId, int operationType);
+
+  /**
+   * Add a specific entity operation.
+   *
+   * @param entityType    The entity type
+   * @param entityId      The entity ID
+   * @param operationType The operation type
+   */
+  void add(Class entityType, Integer entityId, Operation.Type operationType);
+
+  /**
+   * Add a entity creation operation
+   *
+   * @param entityType The entity type
+   * @param entityId   The entity ID
+   */
+  void addCreation(Class entityType, Integer entityId);
+
+  /**
+   * Add a entity modification operation
+   *
+   * @param entityType The entity type
+   * @param entityId   The entity ID
+   */
+  void addModification(Class entityType, Integer entityId);
+
+  /**
+   * Add a entity confirmation operation
+   *
+   * @param entityType The entity type
+   * @param entityId   The entity ID
+   */
+  void addConfirmation(Class entityType, Integer entityId);
+
+  /**
+   * Add a entity approval operation
+   *
+   * @param entityType The entity type
+   * @param entityId   The entity ID
+   */
+  void addApproval(Class entityType, Integer entityId);
 }

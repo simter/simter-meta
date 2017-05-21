@@ -27,13 +27,25 @@ public class MetaServiceImplTest {
   @Test
   public void addCreation() throws Exception {
     service.addCreation(MyDoc.class, 1);
-    verify(dao, times(1)).createMetaHistory(any());
+    verify(dao, times(1)).createOperation(any());
   }
 
   @Test
   public void addModification() throws Exception {
     service.addModification(MyDoc.class, 1);
-    verify(dao, times(1)).createMetaHistory(any());
+    verify(dao, times(1)).createOperation(any());
+  }
+
+  @Test
+  public void addConfirmation() throws Exception {
+    service.addConfirmation(MyDoc.class, 1);
+    verify(dao, times(1)).createOperation(any());
+  }
+
+  @Test
+  public void addApproval() throws Exception {
+    service.addApproval(MyDoc.class, 1);
+    verify(dao, times(1)).createOperation(any());
   }
 
   class MyDoc {

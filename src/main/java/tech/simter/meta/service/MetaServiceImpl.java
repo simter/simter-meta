@@ -3,19 +3,20 @@ package tech.simter.meta.service;
 
 import tech.simter.Context;
 import tech.simter.meta.dao.MetaDao;
-import tech.simter.meta.po.MetaDoc;
-import tech.simter.meta.po.MetaHistory;
-import tech.simter.meta.po.MetaType;
+import tech.simter.meta.po.Document;
+import tech.simter.meta.po.Operation;
+import tech.simter.meta.po.Operator;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 /**
- * Document Meta-Info Service
+ * The default meta service implements.
  *
- * @author RJ 2017-04-25
+ * @author RJ
  */
 @Named
 @Singleton
@@ -23,44 +24,70 @@ public class MetaServiceImpl implements MetaService {
   @Inject
   private MetaDao metaDao;
 
-  @Override
-  public void addCreation(Class docType, Integer docId) {
-    add(docType, docId, "creation");
+  public void add(String documentType, Integer instanceId, int operationType) {
+    Objects.requireNonNull(documentType, "The documentType could not be null.");
+    Objects.requireNonNull(instanceId, "The instanceId could not be null.");
+
+    // Create the Operation instance
+    Operation history = new Operation();
+    history.instanceId = instanceId;
+    history.type = operationType;
+    history.operateTime = OffsetDateTime.now();
+
+    // Get the Document, create one if not exists.
+    Document doc = metaDao.getDocument(documentType);
+    if (doc == null) {
+      doc = new Document();
+      doc.type = documentType;
+      metaDao.createDocument(doc);
+    }
+    history.document = doc;
+
+    // Get the Operator, create one if not exists.
+    String userId_ = Context.get("user.id");
+    if (userId_ != null) {
+      Integer userId = Integer.valueOf(userId_);
+      Operator operator = metaDao.getOperator(userId);
+      if (operator == null) {
+        operator = new Operator();
+        operator.id = userId;
+        operator.name = Context.get("user.name");
+        metaDao.createOperator(operator);
+      }
+      history.operator = operator;
+    }
+
+    // save
+    metaDao.createOperation(history);
+  }
+
+  public void add(Class entityType, Integer entityId, int operationType) {
+    Objects.requireNonNull(entityType, "The entityType could not be null.");
+    add(entityType.getName(), entityId, operationType);
+  }
+
+  public void add(Class entityType, Integer entityId, Operation.Type operationType) {
+    Objects.requireNonNull(operationType, "The operationType could not be null.");
+    add(entityType, entityId, operationType.value());
   }
 
   @Override
-  public void addModification(Class docType, Integer docId) {
-    add(docType, docId, "modification");
+  public void addCreation(Class entityType, Integer entityId) {
+    add(entityType, entityId, Operation.Type.Creation);
   }
 
-  private void add(Class docType, Integer docId, String metaType) {
-    // Get the MetaType, create one if not exists.
-    MetaType mt = metaDao.getMetaType(metaType);
-    if (mt == null) {
-      mt = new MetaType();
-      mt.type = metaType;
-      if ("creation".equals(metaType)) mt.name = "Create document";
-      else if ("modification".equals(metaType)) mt.name = "Modify document";
-      metaDao.createMetaType(mt);
-    }
+  @Override
+  public void addModification(Class entityType, Integer entityId) {
+    add(entityType, entityId, Operation.Type.Modification);
+  }
 
-    // Get the MetaDoc, create one if not exists.
-    MetaDoc metaDoc = metaDao.getMetaDoc(docType);
-    if (metaDoc == null) {
-      metaDoc = new MetaDoc();
-      metaDoc.type = docType.getName();
-      metaDao.createMetaDoc(metaDoc);
-    }
+  @Override
+  public void addConfirmation(Class entityType, Integer entityId) {
+    add(entityType, entityId, Operation.Type.Confirmation);
+  }
 
-    // Create the MetaHistory instance
-    MetaHistory metaHistory = new MetaHistory();
-    metaHistory.docId = docId;
-    metaHistory.metaType = mt;
-    metaHistory.metaDoc = metaDoc;
-    String userId = Context.get("user.id");
-    metaHistory.actor = userId == null ? null : Integer.valueOf(userId);
-    metaHistory.time = OffsetDateTime.now();
-    metaDao.createMetaHistory(metaHistory);
-
+  @Override
+  public void addApproval(Class entityType, Integer entityId) {
+    add(entityType, entityId, Operation.Type.Approval);
   }
 }

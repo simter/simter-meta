@@ -1,23 +1,22 @@
-create table meta_type (
+create table document (
   id   integer auto_increment primary key,
-  type varchar(255) not null unique                    comment 'MetaType identity, like "creation", "modification"',
-  name varchar(255)                                    comment 'MetaType Name'
-) comment = 'Meta Type';
+  type varchar(255) not null unique                  comment 'The document type',
+  name varchar(255)                                  comment 'The document Name'
+) comment = 'The document';
 
-create table meta_doc (
-  id   integer auto_increment primary key,
-  type varchar(255) not null unique                    comment 'Meta Document Type',
-  name varchar(255)                                    comment 'Meta Document Name'
-) comment = 'Meta Document';
+create table operator (
+  id   integer primary key,
+  name varchar(255) not null                         comment 'The operator name'
+) comment = 'The document operator';
 
-create table meta_history (
+create table operation (
   id           integer auto_increment primary key,
-  time         datetime not null                       comment 'creation time',
-  actor        integer                                 comment 'creator',
-  meta_type_id integer  not null                       comment 'Meta Type ID',
-  meta_doc_id  integer  not null                       comment 'Document Type ID',
-  doc_id       integer  not null                       comment 'Document instance ID',
-  foreign key (meta_type_id) references meta_type(id),
-  foreign key (meta_doc_id)  references meta_doc(id)
-) comment = 'Meta Info';
-create index meta_history_doc on meta_history (meta_doc_id, doc_id);
+  type         integer not null                      comment 'The operation type: 10-Creation, 20-Modification, 30-Confirmation, 40-Approval',
+  operate_time datetime not null                     comment 'The operate time',
+  operator_id  integer                               comment 'The operator ID',
+  document_id  integer not null                      comment 'The document ID',
+  instance_id  integer  not null                     comment 'The document instance ID',
+  foreign key (operator_id) references operator(id),
+  foreign key (document_id) references document(id)
+) comment = 'The operation';
+create index operation_document on operation (document_id, instance_id);
