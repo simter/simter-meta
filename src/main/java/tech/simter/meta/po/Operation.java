@@ -29,7 +29,8 @@ public class Operation implements Serializable {
    * The operation type.
    * <p>
    * Some common operation type had predefined in {@link Type}.
-   * Use its persistence value {@link Type#value()}.
+   * Use its persistence value {@link Type#value()}. The reserve values id less than 50.
+   * So if you use some custom value, make it greater than or equals 50.
    */
   public int type;
 
