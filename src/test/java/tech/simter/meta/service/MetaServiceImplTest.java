@@ -8,7 +8,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import tech.simter.Context;
 import tech.simter.meta.dao.MetaDao;
+import tech.simter.meta.po.Operator;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
@@ -46,6 +49,16 @@ public class MetaServiceImplTest {
   public void addApproval() throws Exception {
     service.addApproval(MyDoc.class, 1);
     verify(dao, times(1)).createOperation(any());
+  }
+
+  @Test
+  public void getCreator() throws Exception {
+    Operator operator = mock(Operator.class);
+    operator.id = 1;
+    when(dao.getCreator(MyDoc.class, 1)).thenReturn(operator);
+    Operator creator = service.getCreator(MyDoc.class, 1);
+    verify(dao).getCreator(MyDoc.class, 1);
+    assertThat(creator, is(operator));
   }
 
   class MyDoc {

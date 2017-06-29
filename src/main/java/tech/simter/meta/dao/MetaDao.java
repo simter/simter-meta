@@ -64,4 +64,13 @@ public interface MetaDao {
    * @return the exists one or create a new one if not exists
    */
   Document createOrGetDocumentByType(String type, String name);
+
+  /**
+   * Get the entity creator
+   *
+   * @param entityType The entity type
+   * @param entityId   The entity ID
+   * @return the creator or null if not exists
+   */
+  Operator getCreator(Class entityType, Integer entityId);
 }

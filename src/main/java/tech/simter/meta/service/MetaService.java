@@ -2,6 +2,7 @@ package tech.simter.meta.service;
 
 
 import tech.simter.meta.po.Operation;
+import tech.simter.meta.po.Operator;
 
 /**
  * The meta service.
@@ -67,4 +68,13 @@ public interface MetaService {
    * @param entityId   The entity ID
    */
   void addApproval(Class entityType, Integer entityId);
+
+  /**
+   * Get the entity creator
+   *
+   * @param entityType The entity type
+   * @param entityId   The entity ID
+   * @return the creator or null if not exists
+   */
+  Operator getCreator(Class entityType, Integer entityId);
 }

@@ -90,4 +90,9 @@ public class MetaServiceImpl implements MetaService {
   public void addApproval(Class entityType, Integer entityId) {
     add(entityType, entityId, Operation.Type.Approval);
   }
+
+  @Override
+  public Operator getCreator(Class entityType, Integer entityId) {
+    return metaDao.getCreator(entityType, entityId);
+  }
 }
