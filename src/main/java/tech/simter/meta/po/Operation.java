@@ -20,10 +20,10 @@ public class Operation implements Serializable {
   public Integer id;
 
   /**
-   * The operate time.
+   * The operate timestamp.
    */
   @Column(nullable = false)
-  public OffsetDateTime operateTime;
+  public OffsetDateTime operateOn;
 
   /**
    * The operation type.

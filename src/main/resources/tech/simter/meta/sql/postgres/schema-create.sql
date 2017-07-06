@@ -15,15 +15,15 @@ comment on table operator is 'The document operator';
 comment on column operator.name is 'The operator name';
 
 create table operation (
-  id           serial primary key,
-  type         integer     not null,
-  operate_time timestamptz not null,
-  operator_id  integer references operator,
-  document_id  integer     not null references document,
-  instance_id  integer     not null
+  id          serial primary key,
+  type        integer     not null,
+  operate_on  timestamptz not null,
+  operator_id integer references operator,
+  document_id integer     not null references document,
+  instance_id integer     not null
 );
 comment on table operation is 'The operation';
-comment on column operation.operate_time is 'The operate time';
+comment on column operation.operate_on is 'The operate timestamp';
 comment on column operation.type is 'The operation type: 10-Creation, 20-Modification, 30-Confirmation, 40-Approval';
 comment on column operation.operator_id is 'The operator ID';
 comment on column operation.document_id is 'The document ID';

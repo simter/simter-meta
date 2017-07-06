@@ -32,7 +32,7 @@ public class MetaServiceImpl implements MetaService {
     Operation history = new Operation();
     history.instanceId = instanceId;
     history.type = operationType;
-    history.operateTime = OffsetDateTime.now();
+    history.operateOn = OffsetDateTime.now();
 
     // Get the Document, create one if not exists.
     Document doc = metaDao.getDocument(documentType);

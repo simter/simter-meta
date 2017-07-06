@@ -12,7 +12,7 @@ create table operator (
 create table operation (
   id           integer auto_increment primary key,
   type         integer not null                      comment 'The operation type: 10-Creation, 20-Modification, 30-Confirmation, 40-Approval',
-  operate_time datetime not null                     comment 'The operate time',
+  operate_on   datetime not null                     comment 'The operate timestamp',
   operator_id  integer                               comment 'The operator ID',
   document_id  integer not null                      comment 'The document ID',
   instance_id  integer  not null                     comment 'The document instance ID',
