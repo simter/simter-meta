@@ -75,7 +75,12 @@ public class Operation implements Serializable {
     /**
      * The approval operation. It has a persistence value 40.
      */
-    Approval(40);
+    Approval(40),
+
+    /**
+     * The deletion operation. It has a persistence value 90.
+     */
+    Deletion(90);
 
     private final int value;
 
