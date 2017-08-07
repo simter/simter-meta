@@ -73,4 +73,24 @@ public interface MetaDao {
    * @return the creator or null if not exists
    */
   Operator getCreator(Class entityType, Integer entityId);
+
+  /**
+   * Get the last operation on the specify entity
+   *
+   * @param entityType    The entity type
+   * @param entityId      The entity ID
+   * @param operationType The operation type
+   * @return the operation or null if not exists
+   */
+  Operation getLastOperation(String entityType, Integer entityId, int operationType);
+
+  /**
+   * Get the last operation on the specify entity
+   *
+   * @param entityType     The entity type
+   * @param entityId       The entity ID
+   * @param operationTypes The operation types
+   * @return the operation or null if not exists
+   */
+  Operation getLastOperation(String entityType, Integer entityId, int[] operationTypes);
 }

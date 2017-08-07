@@ -95,4 +95,33 @@ public class MetaServiceImpl implements MetaService {
   public Operator getCreator(Class entityType, Integer entityId) {
     return metaDao.getCreator(entityType, entityId);
   }
+
+  @Override
+  public Operation getLastOperation(Class entityType, Integer entityId, Operation.Type operationType) {
+    return metaDao.getLastOperation(entityType.getName(), entityId,
+      operationType == null ? null : new int[]{operationType.value()});
+  }
+
+  @Override
+  public Operation getLastOperation(Class entityType, Integer entityId, int operationType) {
+    return metaDao.getLastOperation(entityType.getName(), entityId, operationType);
+  }
+
+  @Override
+  public Operation getLastOperation(Class entityType, Integer entityId, Operation.Type[] operationTypes) {
+    if (operationTypes == null) {
+      return metaDao.getLastOperation(entityType.getName(), entityId, null);
+    } else {
+      int[] types = new int[operationTypes.length];
+      for (int i = 0; i < operationTypes.length; i++) {
+        types[i] = operationTypes[i].value();
+      }
+      return metaDao.getLastOperation(entityType.getName(), entityId, types);
+    }
+  }
+
+  @Override
+  public Operation getLastOperation(Class entityType, Integer entityId, int[] operationTypes) {
+    return metaDao.getLastOperation(entityType.getName(), entityId, operationTypes);
+  }
 }
