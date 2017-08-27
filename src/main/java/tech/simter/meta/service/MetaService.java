@@ -16,6 +16,16 @@ public interface MetaService {
    * @param documentType  The document type
    * @param instanceId    The document instance ID
    * @param operationType The custom operation type value
+   * @param operator      The operator, use current user if null
+   */
+  void add(String documentType, Integer instanceId, int operationType, Operator operator);
+
+  /**
+   * Add a specific document operation.
+   *
+   * @param documentType  The document type
+   * @param instanceId    The document instance ID
+   * @param operationType The custom operation type value
    */
   void add(String documentType, Integer instanceId, int operationType);
 
@@ -36,6 +46,17 @@ public interface MetaService {
    * @param operationType The operation type
    */
   void add(Class entityType, Integer entityId, Operation.Type operationType);
+
+
+  /**
+   * Add a specific entity operation.
+   *
+   * @param entityType    The entity type
+   * @param entityId      The entity ID
+   * @param operationType The operation type
+   * @param operator      The operator, use current user if null
+   */
+  void add(Class entityType, Integer entityId, Operation.Type operationType, Operator operator);
 
   /**
    * Add a entity creation operation

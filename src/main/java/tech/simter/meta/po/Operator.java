@@ -20,4 +20,12 @@ public class Operator implements Serializable {
    */
   @Column(nullable = false)
   public String name;
+
+  public Operator() {
+  }
+
+  public Operator(int id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 }

@@ -21,10 +21,20 @@ import java.util.Objects;
 @Named
 @Singleton
 public class MetaServiceImpl implements MetaService {
-  @Inject
-  private MetaDao metaDao;
+  private final MetaDao metaDao;
 
+  @Inject
+  public MetaServiceImpl(MetaDao metaDao) {
+    this.metaDao = metaDao;
+  }
+
+  @Override
   public void add(String documentType, Integer instanceId, int operationType) {
+    add(documentType, instanceId, operationType, null);
+  }
+
+  @Override
+  public void add(String documentType, Integer instanceId, int operationType, Operator operator) {
     Objects.requireNonNull(documentType, "The documentType could not be null.");
     Objects.requireNonNull(instanceId, "The instanceId could not be null.");
 
@@ -44,16 +54,23 @@ public class MetaServiceImpl implements MetaService {
     history.document = doc;
 
     // Get the Operator, create one if not exists.
-    String userId_ = Context.get("user.id");
-    if (userId_ != null) {
-      Integer userId = Integer.valueOf(userId_);
-      Operator operator = metaDao.getOperator(userId);
-      if (operator == null) {
-        operator = new Operator();
-        operator.id = userId;
-        operator.name = Context.get("user.name");
-        metaDao.createOperator(operator);
+    if (operator == null) { // use current user
+      Object userId_ = Context.get("user.id");
+      if (userId_ != null) {
+        Integer userId = Integer.valueOf(userId_.toString());
+        operator = metaDao.getOperator(userId);
+        if (operator == null) {
+          operator = new Operator();
+          operator.id = userId;
+          operator.name = Context.get("user.name");
+          metaDao.createOperator(operator);
+        }
+        history.operator = operator;
       }
+    } else {              // use the specific user
+      Operator exists = metaDao.getOperator(operator.id);
+      if (exists == null) metaDao.createOperator(operator);
+      else operator = exists;
       history.operator = operator;
     }
 
@@ -64,6 +81,11 @@ public class MetaServiceImpl implements MetaService {
   public void add(Class entityType, Integer entityId, int operationType) {
     Objects.requireNonNull(entityType, "The entityType could not be null.");
     add(entityType.getName(), entityId, operationType);
+  }
+
+  public void add(Class entityType, Integer entityId, Operation.Type operationType, Operator operator) {
+    Objects.requireNonNull(operationType, "The operationType could not be null.");
+    add(entityType.getName(), entityId, operationType.value(), operator);
   }
 
   public void add(Class entityType, Integer entityId, Operation.Type operationType) {

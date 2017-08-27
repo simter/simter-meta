@@ -24,4 +24,16 @@ public class Document implements Serializable {
    * The name.
    */
   public String name;
+
+  public Document() {
+  }
+
+  public Document(Class<?> type) {
+    this.type = type.getName();
+  }
+
+  public Document(Class<?> type, String name) {
+    this.type = type.getName();
+    this.name = name;
+  }
 }
